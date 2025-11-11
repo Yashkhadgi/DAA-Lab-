@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function to Sort the files in ascending order, perform optimal file merging and return the minimum cost
+int optimalMerge(int files[], int n) {
+		int tot = 0;
+	int i,j;
+	while(n>1){
+		for(i=0; i<n; i++){
+			for(j=0; j<n-i-1; j++){
+				if(files[j]>files[j+1]){
+					int temp = files[j];
+					files[j] = files[j+1];
+					files[j+1] = temp;
+				}
+			}
+		}
+		int m = files[0]+files[1];
+		tot += m;
+		files[0] = m;
+		for(i=1; i<n-1; i++){
+			files[i] = files[i+1];
+		}
+		n--;
+	}
+	return tot;
+}
+
+int main() {
+    int n;
+    printf("Number of files: ");
+    scanf("%d", &n);
+    int *files = (int *)malloc(n * sizeof(int));
+    printf("Enter the sizes of %d files: ", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &files[i]);
+    }
+    int minCost = optimalMerge(files, n);
+    printf("Minimum cost of merging is: %d\n", minCost);
+    free(files);
+    return 0;
+}
